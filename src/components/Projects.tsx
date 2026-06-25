@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Github } from 'lucide-react'
 import { useT } from '../i18n'
-import TiltCard from './TiltCard'
+import SpotlightCard from './SpotlightCard'
 
 const projects = [
   {
@@ -73,48 +73,46 @@ export default function Projects() {
         >
           {projects.map((p) => (
             <motion.div key={p.title} variants={item}>
-              <TiltCard className="h-full">
-                <div className="group glass rounded-2xl overflow-hidden h-full flex flex-col hover:border-accent/50 transition-colors duration-300">
-                  <div className="h-40 relative overflow-hidden">
-                    <img
-                      src={p.img}
-                      alt={p.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-dark-900/30 to-transparent" />
+              <SpotlightCard className="h-full glass rounded-2xl overflow-hidden flex flex-col hover:border-accent/50 transition-colors duration-300 border-border p-0">
+                <div className="h-40 relative overflow-hidden">
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-dark-900/30 to-transparent" />
+                </div>
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="text-lg font-semibold mb-2">{p.title}</h3>
+                  <p className="text-text-secondary text-sm leading-relaxed mb-4 flex-1">
+                    {p.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {p.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 text-[11px] font-medium bg-accent/10 text-accent-light/90 rounded-md"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-lg font-semibold mb-2">{p.title}</h3>
-                    <p className="text-text-secondary text-sm leading-relaxed mb-4 flex-1">
-                      {p.desc}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2 py-0.5 text-[11px] font-medium bg-accent/10 text-accent-light/90 rounded-md"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-3 pt-2 border-t border-border">
-                      {p.github && (
-                        <a
-                          href={p.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-accent-light transition-colors"
-                        >
-                          <Github size={14} />
-                          {t.projects.github}
-                        </a>
-                      )}
-                    </div>
+                  <div className="flex items-center gap-3 pt-2 border-t border-border">
+                    {p.github && (
+                      <a
+                        href={p.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-accent-light transition-colors"
+                      >
+                        <Github size={14} />
+                        {t.projects.github}
+                      </a>
+                    )}
                   </div>
                 </div>
-              </TiltCard>
+              </SpotlightCard>
             </motion.div>
           ))}
         </motion.div>

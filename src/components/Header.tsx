@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Menu, X, Languages } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useT } from '../i18n'
+import Magnet from './Magnet'
 
 export default function Header() {
   const { t, lang, setLang } = useT()
@@ -28,19 +29,22 @@ export default function Header() {
       }`}
     >
       <div className="section-container flex items-center justify-between h-16">
-        <a href="#hero" className="text-lg font-bold gradient-text">
-          MD
-        </a>
+        <Magnet magnetStrength={5} padding={40}>
+          <a href="#hero" className="text-lg font-bold gradient-text block">
+            MD
+          </a>
+        </Magnet>
 
         <nav className="hidden md:flex items-center gap-8">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm text-text-secondary hover:text-accent-light transition-colors"
-            >
-              {l.label}
-            </a>
+            <Magnet key={l.href} magnetStrength={5} padding={30}>
+              <a
+                href={l.href}
+                className="text-sm text-text-secondary hover:text-accent-light transition-colors block"
+              >
+                {l.label}
+              </a>
+            </Magnet>
           ))}
           <button
             onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}

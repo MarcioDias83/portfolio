@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDown, Github, Linkedin } from 'lucide-react'
 import { useT } from '../i18n'
+import AuroraBg from './AuroraBg'
+import DecryptedText from './DecryptedText'
+import Magnet from './Magnet'
 
 function TypeText({ texts }: { texts: string[] }) {
   const [index, setIndex] = useState(0)
@@ -50,15 +53,21 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      <div className="absolute inset-0">
+        <AuroraBg
+          colorStops={['#6c5ce7', '#a29bfe', '#4834d4']}
+          amplitude={1.2}
+          blend={0.6}
+          speed={0.8}
+        />
+      </div>
       <div
-        className="absolute inset-0 opacity-30 transition-all duration-500"
+        className="absolute inset-0 opacity-20 transition-all duration-500"
         style={{
           background: `radial-gradient(600px at ${mousePos.x}px ${mousePos.y}px, rgba(108,92,231,0.15), transparent)`,
         }}
       />
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-accent/15 rounded-full blur-[120px] animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-light/10 rounded-full blur-[150px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[180px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark-900/60" />
 
       <div className="section-container relative z-10 text-center">
         <motion.div
@@ -78,7 +87,16 @@ export default function Hero() {
           className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4"
         >
           {t.hero.hello}{' '}
-          <span className="gradient-text">Marcio Dias</span>
+          <DecryptedText
+            text="Marcio Dias"
+            animateOn="hover"
+            speed={60}
+            maxIterations={15}
+            sequential={true}
+            revealDirection="center"
+            className="gradient-text"
+            encryptedClassName="text-text-muted"
+          />
         </motion.h1>
 
         <motion.p
@@ -105,19 +123,23 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="flex flex-wrap items-center justify-center gap-4"
         >
-          <a
-            href="#projetos"
-            className="group relative px-8 py-3 bg-accent hover:bg-accent/90 text-white rounded-full font-medium transition-all"
-          >
-            <span className="absolute inset-0 rounded-full bg-white/20 blur-md group-hover:blur-xl transition-all opacity-0 group-hover:opacity-100" />
-            <span className="relative">{t.hero.btn_projects}</span>
-          </a>
-          <a
-            href="#contato"
-            className="px-8 py-3 glass hover:bg-surface-hover text-text-primary rounded-full font-medium transition-all border-border hover:border-accent/50"
-          >
-            {t.hero.btn_contact}
-          </a>
+          <Magnet magnetStrength={4} padding={60}>
+            <a
+              href="#projetos"
+              className="group relative px-8 py-3 bg-accent hover:bg-accent/90 text-white rounded-full font-medium transition-all block"
+            >
+              <span className="absolute inset-0 rounded-full bg-white/20 blur-md group-hover:blur-xl transition-all opacity-0 group-hover:opacity-100" />
+              <span className="relative">{t.hero.btn_projects}</span>
+            </a>
+          </Magnet>
+          <Magnet magnetStrength={4} padding={60}>
+            <a
+              href="#contato"
+              className="px-8 py-3 glass hover:bg-surface-hover text-text-primary rounded-full font-medium transition-all border-border hover:border-accent/50 block"
+            >
+              {t.hero.btn_contact}
+            </a>
+          </Magnet>
         </motion.div>
 
         <motion.div
@@ -130,16 +152,17 @@ export default function Hero() {
             { href: 'https://github.com/MarcioDias83', icon: Github, label: 'GitHub' },
             { href: 'https://linkedin.com/in/marciodias83', icon: Linkedin, label: 'LinkedIn' },
           ].map(({ href, icon: Icon, label }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 glass rounded-full hover:bg-surface-hover transition-all hover:text-accent-light hover:border-accent/40 hover:-translate-y-1"
-              aria-label={label}
-            >
-              <Icon size={20} />
-            </a>
+            <Magnet key={label} magnetStrength={3} padding={40}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 glass rounded-full hover:bg-surface-hover transition-all hover:text-accent-light hover:border-accent/40 hover:-translate-y-1 block"
+                aria-label={label}
+              >
+                <Icon size={20} />
+              </a>
+            </Magnet>
           ))}
         </motion.div>
       </div>
