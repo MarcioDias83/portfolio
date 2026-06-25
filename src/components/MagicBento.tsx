@@ -7,45 +7,6 @@ const DEFAULT_SPOTLIGHT_RADIUS = 300
 const DEFAULT_GLOW_COLOR = '108, 92, 231'
 const MOBILE_BREAKPOINT = 768
 
-const cardData = [
-  {
-    color: 'rgba(10,10,26,0.5)',
-    title: 'Desenvolvimento Web',
-    description: 'Sites e aplicacoes modernas com React, TypeScript e Tailwind — do prototipo ao deploy.',
-    label: 'Frontend',
-  },
-  {
-    color: 'rgba(10,10,26,0.5)',
-    title: 'APIs & Backend',
-    description: 'APIs REST robustas com Python, FastAPI e Node.js, integradas a bancos SQL e NoSQL.',
-    label: 'Backend',
-  },
-  {
-    color: 'rgba(10,10,26,0.5)',
-    title: 'UI/UX Design',
-    description: 'Interfaces intuitivas e acessiveis, projetadas no Figma com foco em experiencia do usuario.',
-    label: 'Design',
-  },
-  {
-    color: 'rgba(10,10,26,0.5)',
-    title: 'Infra & DevOps',
-    description: 'Deploy automatizado com Docker, Vercel, GitHub Actions e gerenciamento de servidores Linux.',
-    label: 'Infra',
-  },
-  {
-    color: 'rgba(10,10,26,0.5)',
-    title: 'Suporte Tecnico',
-    description: 'Suporte N1/N2, help desk, infraestrutura corporativa e atendimento remoto ou presencial.',
-    label: 'Suporte',
-  },
-  {
-    color: 'rgba(10,10,26,0.5)',
-    title: 'Consultoria TI',
-    description: 'Orientacao tecnica em migracao de sistemas, escolha de stack e otimizacao de processos.',
-    label: 'Consultoria',
-  },
-]
-
 function createParticleElement(x: number, y: number, color = DEFAULT_GLOW_COLOR) {
   const el = document.createElement('div')
   el.className = 'particle'
@@ -494,7 +455,7 @@ export default function MagicBento({
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
   enableMagnetism = true,
-  cards = cardData,
+  cards = [],
 }: {
   textAutoHide?: boolean
   enableStars?: boolean

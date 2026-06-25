@@ -51,7 +51,7 @@ export default function ParticleField() {
       for (const p of particles) {
         const dx = mouseRef.current.x - p.x
         const dy = mouseRef.current.y - p.y
-        const dist = Math.sqrt(dx * dy + dx * dy)
+        const dist = Math.sqrt(dx * dx + dy * dy)
 
         if (dist < 200) {
           p.vx += dx * 0.00005
