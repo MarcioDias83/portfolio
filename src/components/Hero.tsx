@@ -3,8 +3,9 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 import { useT } from '../i18n'
 import AuroraBg from './AuroraBg'
-import DecryptedText from './DecryptedText'
 import Magnet from './Magnet'
+import TextReveal from './TextReveal'
+import Parallax from './Parallax'
 
 function TypeText({ texts }: { texts: string[] }) {
   const [index, setIndex] = useState(0)
@@ -62,7 +63,8 @@ export default function Hero() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const { scrollY } = useScroll()
   const opacity = useTransform(scrollY, [0, 500], [1, 0])
-  const y = useTransform(scrollY, [0, 500], [0, 100])
+  const y = useTransform(scrollY, [0, 500], [0, 150])
+  const scale = useTransform(scrollY, [0, 500], [1, 0.9])
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
@@ -85,11 +87,15 @@ export default function Hero() {
         />
       </div>
 
-      {/* Floating orbs */}
-      <FloatingOrb delay={0.5} x="10%" y="20%" size={300} color="rgba(108,92,231,0.15)" />
-      <FloatingOrb delay={1} x="80%" y="15%" size={250} color="rgba(162,155,254,0.1)" />
-      <FloatingOrb delay={1.5} x="60%" y="70%" size={200} color="rgba(253,121,168,0.08)" />
-      <FloatingOrb delay={2} x="20%" y="75%" size={180} color="rgba(0,206,201,0.06)" />
+      {/* Floating orbs with parallax */}
+      <Parallax speed={0.3} className="absolute inset-0">
+        <FloatingOrb delay={0.5} x="10%" y="20%" size={300} color="rgba(108,92,231,0.15)" />
+        <FloatingOrb delay={1} x="80%" y="15%" size={250} color="rgba(162,155,254,0.1)" />
+      </Parallax>
+      <Parallax speed={0.2} className="absolute inset-0">
+        <FloatingOrb delay={1.5} x="60%" y="70%" size={200} color="rgba(253,121,168,0.08)" />
+        <FloatingOrb delay={2} x="20%" y="75%" size={180} color="rgba(0,206,201,0.06)" />
+      </Parallax>
 
       {/* Mouse follow glow */}
       <div
@@ -104,7 +110,7 @@ export default function Hero() {
 
       {/* Content */}
       <motion.div
-        style={{ opacity, y }}
+        style={{ opacity, y, scale }}
         className="section-container relative z-10 text-center"
       >
         {/* Profile photo */}
@@ -122,7 +128,6 @@ export default function Hero() {
                 className="w-full h-full object-cover"
               />
             </div>
-            {/* Online indicator */}
             <div className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-green-400 border-3 border-dark-900 shadow-lg shadow-green-400/30" />
           </div>
         </motion.div>
@@ -139,33 +144,30 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Main heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
-          className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] mb-6 tracking-tight"
-        >
-          <span className="text-text-secondary block text-2xl md:text-3xl font-normal mb-3 tracking-normal">
+        {/* Main heading with text reveal */}
+        <div className="mb-6">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-2xl md:text-3xl font-light text-text-secondary mb-2 tracking-normal"
+          >
             {t.hero.hello}
-          </span>
-          <DecryptedText
-            text="Marcio Dias"
-            animateOn="hover"
-            speed={50}
-            maxIterations={18}
-            sequential={true}
-            revealDirection="center"
-            className="gradient-text"
-            encryptedClassName="text-text-muted"
-          />
-        </motion.h1>
+          </motion.p>
+          <TextReveal
+            className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tight gradient-text"
+            delay={0.3}
+            speed={0.02}
+          >
+            {'Marcio Dias'}
+          </TextReveal>
+        </div>
 
         {/* Role typewriter */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
+          transition={{ duration: 0.8, delay: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="text-xl md:text-2xl text-text-secondary mb-3 font-light"
         >
           <TypeText texts={t.hero.roles} />
@@ -175,7 +177,7 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
+          transition={{ duration: 0.8, delay: 0.9, ease: [0.23, 1, 0.32, 1] }}
           className="text-base md:text-lg text-text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
         >
           {t.hero.tagline_before}{' '}
@@ -189,16 +191,16 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
+          transition={{ duration: 0.8, delay: 1, ease: [0.23, 1, 0.32, 1] }}
           className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
           <Magnet magnetStrength={5} padding={60}>
-            <a href="#projetos" className="magnetic-btn magnetic-btn-primary block">
+            <a href="#projetos" className="magnetic-btn magnetic-btn-primary block" data-cursor="View">
               <span className="relative z-10">{t.hero.btn_projects}</span>
             </a>
           </Magnet>
           <Magnet magnetStrength={5} padding={60}>
-            <a href="#contato" className="magnetic-btn magnetic-btn-secondary block">
+            <a href="#contato" className="magnetic-btn magnetic-btn-secondary block" data-cursor="Contact">
               <span className="relative z-10">{t.hero.btn_contact}</span>
             </a>
           </Magnet>
@@ -208,7 +210,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7, ease: [0.23, 1, 0.32, 1] }}
+          transition={{ duration: 0.8, delay: 1.2, ease: [0.23, 1, 0.32, 1] }}
           className="flex items-center justify-center gap-3"
         >
           {[
@@ -223,6 +225,7 @@ export default function Hero() {
                 rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                 className="p-3.5 glass-strong rounded-xl hover:bg-accent/20 transition-all duration-300 hover:text-accent-light hover:border-accent/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 block"
                 aria-label={label}
+                data-cursor={label}
               >
                 <Icon size={20} />
               </a>
@@ -235,7 +238,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
+        transition={{ delay: 1.8, duration: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-[10px] uppercase tracking-[0.3em] text-text-muted font-medium">Scroll</span>

@@ -2,6 +2,7 @@ import { I18nProvider } from './i18n'
 import Header from './components/Header'
 import ScrollProgress from './components/ScrollProgress'
 import ParticleField from './components/ParticleField'
+import CustomCursor from './components/CustomCursor'
 import Hero from './components/Hero'
 import SkillsMarquee from './components/SkillsMarquee'
 import Stats from './components/Stats'
@@ -15,6 +16,7 @@ import Footer from './components/Footer'
 export default function App() {
   return (
     <I18nProvider>
+      <CustomCursor />
       <ScrollProgress />
       <ParticleField />
       <div className="relative z-10">
