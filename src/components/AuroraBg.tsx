@@ -188,7 +188,7 @@ export default function AuroraBg({
       if (ctn && gl.canvas.parentNode === ctn) ctn.removeChild(gl.canvas)
       gl.getExtension('WEBGL_lose_context')?.loseContext()
     }
-  }, [amplitude])
+  }, [amplitude, colorStops, blend])
 
   return <div ref={ctnDom} className={`w-full h-full ${className}`} />
 }
