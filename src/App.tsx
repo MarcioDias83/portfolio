@@ -5,6 +5,7 @@ import ParticleField from './components/ParticleField'
 import Hero from './components/Hero'
 import SkillsMarquee from './components/SkillsMarquee'
 import Stats from './components/Stats'
+import BentoSection from './components/BentoSection'
 import SkillsShowcase from './components/SkillsShowcase'
 import Projects from './components/Projects'
 import About from './components/About'
@@ -22,6 +23,7 @@ export default function App() {
           <Hero />
           <SkillsMarquee />
           <Stats />
+          <BentoSection />
           <SkillsShowcase />
           <Projects />
           <About />
