@@ -3,52 +3,24 @@ import {
   Palette, Database, Layout,
   Cloud, Terminal,
 } from 'lucide-react'
+import { useT } from '../i18n'
 
 const skillCategories = [
-  {
-    label: 'Frontend',
-    icon: Layout,
-    items: ['React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-  },
-  {
-    label: 'State & Data',
-    icon: Database,
-    items: ['Zustand', 'React Query', 'Zod', 'React Router'],
-  },
-  {
-    label: 'Backend',
-    icon: Terminal,
-    items: ['Python', 'FastAPI', 'Node.js', 'APIs REST'],
-  },
-  {
-    label: 'Ferramentas',
-    icon: Wrench,
-    items: ['Git', 'Docker', 'Vite', 'Vercel'],
-  },
-  {
-    label: 'Infra & DevOps',
-    icon: Cloud,
-    items: ['Linux', 'PostgreSQL', 'Serverless', 'GitHub Actions'],
-  },
-  {
-    label: 'Design',
-    icon: Palette,
-    items: ['UI/UX Design', 'Figma', 'Design Systems', 'Prototipagem'],
-  },
+  { labelKey: 'Frontend' as const, icon: Layout, items: ['React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
+  { labelKey: 'State & Data' as const, icon: Database, items: ['Zustand', 'React Query', 'Zod', 'React Router'] },
+  { labelKey: 'Backend' as const, icon: Terminal, items: ['Python', 'FastAPI', 'Node.js', 'APIs REST'] },
+  { labelKey: 'Ferramentas' as const, icon: Wrench, items: ['Git', 'Docker', 'Vite', 'Vercel'] },
+  { labelKey: 'Infra & DevOps' as const, icon: Cloud, items: ['Linux', 'PostgreSQL', 'Serverless', 'GitHub Actions'] },
+  { labelKey: 'Design' as const, icon: Palette, items: ['UI/UX Design', 'Figma', 'Design Systems', 'Prototipagem'] },
 ]
 
 function Wrench({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      width="24" height="24" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round"
       className={className}
     >
       <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
@@ -58,9 +30,7 @@ function Wrench({ className }: { className?: string }) {
 
 const container = {
   hidden: {},
-  show: {
-    transition: { staggerChildren: 0.1 },
-  },
+  show: { transition: { staggerChildren: 0.1 } },
 }
 
 const item = {
@@ -69,6 +39,8 @@ const item = {
 }
 
 export default function SkillsShowcase() {
+  const { t } = useT()
+
   return (
     <section className="py-24 md:py-32 relative">
       <div className="absolute inset-0 pointer-events-none">
@@ -88,10 +60,10 @@ export default function SkillsShowcase() {
             Skills
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mt-3">
-            Stack que uso no dia a dia
+            {t.skills.title}
           </h2>
           <p className="text-text-secondary mt-3 max-w-lg mx-auto">
-            Ferramentas e tecnologias que dominou e aplica em cada projeto.
+            {t.skills.subtitle}
           </p>
         </motion.div>
 
@@ -102,30 +74,35 @@ export default function SkillsShowcase() {
           viewport={{ once: true }}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
         >
-          {skillCategories.map((cat) => (
-            <motion.div
-              key={cat.label}
-              variants={item}
-              className="glass rounded-2xl p-6 hover:border-accent/40 transition-all duration-300 group"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center group-hover:bg-accent/25 transition-colors">
-                  <cat.icon size={20} className="text-accent-light" />
+          {skillCategories.map((cat) => {
+            const label = cat.labelKey === 'Ferramentas' && t.skills_categories['Ferramentas']
+              ? t.skills_categories['Ferramentas']
+              : cat.labelKey
+            return (
+              <motion.div
+                key={cat.labelKey}
+                variants={item}
+                className="glass rounded-2xl p-6 hover:border-accent/40 transition-all duration-300 group"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center group-hover:bg-accent/25 transition-colors">
+                    <cat.icon size={20} className="text-accent-light" />
+                  </div>
+                  <h3 className="font-semibold text-text-primary">{label}</h3>
                 </div>
-                <h3 className="font-semibold text-text-primary">{cat.label}</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {cat.items.map((s) => (
-                  <span
-                    key={s}
-                    className="px-3 py-1 text-xs font-medium bg-dark-600/50 text-text-secondary rounded-full border border-border"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                <div className="flex flex-wrap gap-2">
+                  {cat.items.map((s) => (
+                    <span
+                      key={s}
+                      className="px-3 py-1 text-xs font-medium bg-dark-600/50 text-text-secondary rounded-full border border-border"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </div>
     </section>

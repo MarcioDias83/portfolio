@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion'
+import { useT } from '../i18n'
 
 export default function Footer() {
+  const { t } = useT()
+
   return (
     <footer className="border-t border-border py-8">
       <div className="section-container">
@@ -10,9 +13,9 @@ export default function Footer() {
           viewport={{ once: true }}
           className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-text-muted"
         >
-          <p>© {new Date().getFullYear()} Márcio Dias. Todos os direitos reservados.</p>
+          <p>© {new Date().getFullYear()} Márcio Dias. {t.footer.rights}</p>
           <p>
-            Feito com <span className="text-accent-light">React + TypeScript + Tailwind</span>
+            {t.footer.made_with} <span className="text-accent-light">React + TypeScript + Tailwind</span>
           </p>
         </motion.div>
       </div>

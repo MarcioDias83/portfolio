@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion'
 import {
   Code2, Monitor, Database, ShieldCheck, Terminal,
-  Globe, Smartphone, Wrench, GraduationCap
+  Globe, Smartphone, Wrench, GraduationCap,
 } from 'lucide-react'
+import { useT } from '../i18n'
 
 const competencies = [
   { icon: Code2, label: 'React . TypeScript . Vite' },
-  { icon: Terminal, label: 'Python . APIs . Automacao' },
+  { icon: Terminal, label: 'Python . APIs . Automação' },
   { icon: Database, label: 'Banco de Dados . SQL' },
   { icon: Monitor, label: 'Linux . Windows . Docker' },
   { icon: ShieldCheck, label: 'QA . Testes . Qualidade' },
@@ -16,6 +17,8 @@ const competencies = [
 ]
 
 export default function About() {
+  const { t } = useT()
+
   return (
     <section id="sobre" className="py-24 md:py-32">
       <div className="section-container">
@@ -27,10 +30,10 @@ export default function About() {
           className="text-center mb-16"
         >
           <span className="text-accent-light text-sm font-medium tracking-widest uppercase">
-            Sobre Mim
+            {t.about.badge}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mt-3">
-            Quem sou eu
+            {t.about.heading}
           </h2>
         </motion.div>
 
@@ -42,42 +45,30 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-3 space-y-5 text-text-secondary leading-relaxed"
           >
-            <p>
-              Profissional de TI formado em <strong className="text-text-primary">Analise e Desenvolvimento de Sistemas</strong>,
-              com pos-graduacao na area e foco em solucoes praticas — do suporte ao desenvolvimento.
-            </p>
-            <p>
-              Minha trajetoria une <strong className="text-text-primary">suporte tecnico</strong> (N1/N2, help desk,
-              infraestrutura) com <strong className="text-text-primary">desenvolvimento de sistemas</strong> modernos
-              usando React, TypeScript, Python e APIs. Essa combinacao me permite entender o problema completo
-              — da infraestrutura a interface — e entregar solucoes que realmente funcionam.
-            </p>
-            <p>
-              Ja atuei em empresas de grande porte, projetos de migracao de sistemas, suporte corporativo
-              e tambem em areas comerciais e telecomunicacoes, fortalecendo habilidades de comunicacao,
-              negociacao e foco no cliente.
-            </p>
+            <p dangerouslySetInnerHTML={{ __html: t.about.p1 }} />
+            <p dangerouslySetInnerHTML={{ __html: t.about.p2 }} />
+            <p dangerouslySetInnerHTML={{ __html: t.about.p3 }} />
 
             <div className="glass rounded-xl p-5 mt-6">
               <h4 className="text-text-primary font-semibold mb-3 flex items-center gap-2">
                 <GraduationCap size={18} className="text-accent-light" />
-                Formacao
+                {t.about.formation}
               </h4>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
                   <span className="text-accent-light mt-1">{'>'}</span>
-                  <span>Analise e Desenvolvimento de Sistemas (Superior)</span>
+                  <span>{t.about.degree1}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent-light mt-1">{'>'}</span>
-                  <span>Pos-graduacao em Tecnologia</span>
+                  <span>{t.about.degree2}</span>
                 </li>
               </ul>
             </div>
 
             <div className="flex flex-wrap gap-2 pt-2">
-              <span className="px-3 py-1 text-xs bg-surface rounded-full text-text-muted">Portugues: Nativo</span>
-              <span className="px-3 py-1 text-xs bg-surface rounded-full text-text-muted">Ingles Tecnico: Pre-Intermediario</span>
+              <span className="px-3 py-1 text-xs bg-surface rounded-full text-text-muted">{t.about.lang_pt}</span>
+              <span className="px-3 py-1 text-xs bg-surface rounded-full text-text-muted">{t.about.lang_en}</span>
             </div>
           </motion.div>
 
@@ -88,7 +79,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-2 space-y-4"
           >
-            <h3 className="font-semibold text-text-primary mb-1">Competencias</h3>
+            <h3 className="font-semibold text-text-primary mb-1">{t.about.competencies}</h3>
             <div className="grid grid-cols-1 gap-2.5">
               {competencies.map((c) => (
                 <div

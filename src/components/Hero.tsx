@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDown, Github, Linkedin } from 'lucide-react'
-
-const roles = ['Full-stack Developer', 'UI Designer', 'React Specialist', 'Problem Solver']
-const words = ['solucoes', 'interfaces', 'experiencias', 'sistemas']
+import { useT } from '../i18n'
 
 function TypeText({ texts }: { texts: string[] }) {
   const [index, setIndex] = useState(0)
@@ -38,6 +36,7 @@ function TypeText({ texts }: { texts: string[] }) {
 }
 
 export default function Hero() {
+  const { t } = useT()
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
@@ -68,7 +67,7 @@ export default function Hero() {
           transition={{ duration: 0.5 }}
         >
           <span className="inline-block px-4 py-1.5 text-xs font-medium tracking-widest uppercase text-accent-light glass rounded-full mb-6 border-accent/30">
-            Disponível para novos projetos
+            {t.hero.available}
           </span>
         </motion.div>
 
@@ -78,7 +77,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4"
         >
-          Ola, eu sou{' '}
+          {t.hero.hello}{' '}
           <span className="gradient-text">Marcio Dias</span>
         </motion.h1>
 
@@ -88,7 +87,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-xl md:text-2xl text-text-secondary mb-2"
         >
-          <TypeText texts={roles} />
+          <TypeText texts={t.hero.roles} />
         </motion.p>
 
         <motion.p
@@ -97,8 +96,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="text-base md:text-lg text-text-muted max-w-xl mx-auto mb-10 leading-relaxed"
         >
-          Transformando ideias em <TypeText texts={words} /> digitais —
-          do design a entrega, com foco em qualidade e experiencia do usuario.
+          {t.hero.tagline_before} <TypeText texts={t.hero.words} /> {t.hero.tagline_after}
         </motion.p>
 
         <motion.div
@@ -112,13 +110,13 @@ export default function Hero() {
             className="group relative px-8 py-3 bg-accent hover:bg-accent/90 text-white rounded-full font-medium transition-all"
           >
             <span className="absolute inset-0 rounded-full bg-white/20 blur-md group-hover:blur-xl transition-all opacity-0 group-hover:opacity-100" />
-            <span className="relative">Ver projetos</span>
+            <span className="relative">{t.hero.btn_projects}</span>
           </a>
           <a
             href="#contato"
             className="px-8 py-3 glass hover:bg-surface-hover text-text-primary rounded-full font-medium transition-all border-border hover:border-accent/50"
           >
-            Entrar em contato
+            {t.hero.btn_contact}
           </a>
         </motion.div>
 

@@ -1,3 +1,4 @@
+import { I18nProvider } from './i18n'
 import Header from './components/Header'
 import ScrollProgress from './components/ScrollProgress'
 import ParticleField from './components/ParticleField'
@@ -12,7 +13,7 @@ import Footer from './components/Footer'
 
 export default function App() {
   return (
-    <>
+    <I18nProvider>
       <ScrollProgress />
       <ParticleField />
       <div className="relative z-10">
@@ -28,6 +29,6 @@ export default function App() {
         </main>
         <Footer />
       </div>
-    </>
+    </I18nProvider>
   )
 }

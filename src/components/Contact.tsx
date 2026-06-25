@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Github, Linkedin, Send } from 'lucide-react'
+import { useT } from '../i18n'
 
 export default function Contact() {
+  const { t } = useT()
+
   return (
     <section id="contato" className="py-24 md:py-32">
       <div className="section-container">
@@ -13,13 +16,13 @@ export default function Contact() {
           className="text-center mb-16"
         >
           <span className="text-accent-light text-sm font-medium tracking-widest uppercase">
-            Contato
+            {t.contact.badge}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mt-3">
-            Vamos trabalhar juntos?
+            {t.contact.heading}
           </h2>
           <p className="text-text-secondary mt-3 max-w-lg mx-auto">
-            Tem um projeto em mente? Me mande uma mensagem.
+            {t.contact.subtitle}
           </p>
         </motion.div>
 
@@ -39,7 +42,7 @@ export default function Contact() {
                 <input
                   type="text"
                   name="name"
-                  placeholder="Seu nome"
+                  placeholder={t.contact.name_placeholder}
                   required
                   className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent transition-colors"
                 />
@@ -48,7 +51,7 @@ export default function Contact() {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Seu email"
+                  placeholder={t.contact.email_placeholder}
                   required
                   className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent transition-colors"
                 />
@@ -57,7 +60,7 @@ export default function Contact() {
                 <textarea
                   name="message"
                   rows={5}
-                  placeholder="Sua mensagem"
+                  placeholder={t.contact.message_placeholder}
                   required
                   className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent transition-colors resize-none"
                 />
@@ -67,7 +70,7 @@ export default function Contact() {
                 className="w-full px-6 py-3 bg-accent hover:bg-accent/90 text-white rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-accent/30 flex items-center justify-center gap-2"
               >
                 <Send size={16} />
-                Enviar mensagem
+                {t.contact.send}
               </button>
             </form>
           </motion.div>
@@ -87,7 +90,7 @@ export default function Contact() {
                 <Mail size={18} className="text-accent-light" />
               </div>
               <div>
-                <p className="text-sm text-text-muted">Email</p>
+                <p className="text-sm text-text-muted">{t.contact.email_label}</p>
                 <p className="text-text-primary text-sm">1983mrd@gmail.com</p>
               </div>
             </a>
@@ -102,7 +105,7 @@ export default function Contact() {
                 <Send size={18} className="text-accent-light" />
               </div>
               <div>
-                <p className="text-sm text-text-muted">WhatsApp</p>
+                <p className="text-sm text-text-muted">{t.contact.whatsapp_label}</p>
                 <p className="text-text-primary text-sm">+55 51 99229-3999</p>
               </div>
             </a>
@@ -112,7 +115,7 @@ export default function Contact() {
                 <MapPin size={18} className="text-accent-light" />
               </div>
               <div>
-                <p className="text-sm text-text-muted">Localizacao</p>
+                <p className="text-sm text-text-muted">{t.contact.location_label}</p>
                 <p className="text-text-primary text-sm">Rio Grande do Sul, Brasil</p>
               </div>
             </div>

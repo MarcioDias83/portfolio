@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Code2, Briefcase, Award, Users } from 'lucide-react'
+import { useT } from '../i18n'
 
 function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
   const [count, setCount] = useState(0)
@@ -32,14 +33,16 @@ function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
   )
 }
 
-const stats = [
-  { icon: Code2, value: 5, suffix: '+', label: 'Projetos entregues' },
-  { icon: Briefcase, value: 10, suffix: '+', label: 'Anos de TI' },
-  { icon: Award, value: 2, suffix: '', label: 'Formações acadêmicas' },
-  { icon: Users, value: 500, suffix: '+', label: 'Usuários impactados' },
-]
-
 export default function Stats() {
+  const { t } = useT()
+
+  const stats = [
+    { icon: Code2, value: 5, suffix: '+', label: t.stats[0] },
+    { icon: Briefcase, value: 10, suffix: '+', label: t.stats[1] },
+    { icon: Award, value: 2, suffix: '', label: t.stats[2] },
+    { icon: Users, value: 500, suffix: '+', label: t.stats[3] },
+  ]
+
   return (
     <section className="py-16 relative">
       <div className="section-container">

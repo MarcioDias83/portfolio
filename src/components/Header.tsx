@@ -1,15 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Languages } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-
-const links = [
-  { href: '#hero', label: 'Início' },
-  { href: '#projetos', label: 'Projetos' },
-  { href: '#sobre', label: 'Sobre' },
-  { href: '#contato', label: 'Contato' },
-]
+import { useT } from '../i18n'
 
 export default function Header() {
+  const { t, lang, setLang } = useT()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -18,6 +13,13 @@ export default function Header() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const links = [
+    { href: '#hero', label: t.nav.home },
+    { href: '#projetos', label: t.nav.projects },
+    { href: '#sobre', label: t.nav.about },
+    { href: '#contato', label: t.nav.contact },
+  ]
 
   return (
     <header
@@ -40,15 +42,33 @@ export default function Header() {
               {l.label}
             </a>
           ))}
+          <button
+            onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium glass rounded-full hover:bg-surface-hover transition-all text-text-secondary hover:text-accent-light"
+            aria-label="Toggle language"
+          >
+            <Languages size={14} />
+            {lang === 'pt' ? 'EN' : 'PT'}
+          </button>
         </nav>
 
-        <button
-          className="md:hidden text-text-primary"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
+            className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium glass rounded-full text-text-secondary"
+            aria-label="Toggle language"
+          >
+            <Languages size={14} />
+            {lang === 'pt' ? 'EN' : 'PT'}
+          </button>
+          <button
+            className="text-text-primary"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>

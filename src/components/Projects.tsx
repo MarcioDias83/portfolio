@@ -1,25 +1,26 @@
 import { motion } from 'framer-motion'
 import { Github } from 'lucide-react'
+import { useT } from '../i18n'
 import TiltCard from './TiltCard'
 
 const projects = [
   {
     title: 'Igreja App',
-    desc: 'Aplicacao web completa para gestao de igreja com paginas institucionais, player de audio, formularios com validacao e animacoes fluidas.',
+    desc: 'Aplicação web completa para gestão de igreja com páginas institucionais, player de áudio, formulários com validação e animações fluidas.',
     tags: ['React 19', 'TypeScript', 'Tailwind', 'Zustand', 'React Query', 'Framer Motion'],
     github: 'https://github.com/MarcioDias83/igreja-app',
     img: 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?w=600&q=85&fit=crop',
   },
   {
     title: 'Locadora React',
-    desc: 'Catalogo interativo de veiculos com grid dinamico, filtros, secoes de servicos e navegacao fluida com scroll spy.',
+    desc: 'Catálogo interativo de veículos com grid dinâmico, filtros, seções de serviços e navegação fluida com scroll spy.',
     tags: ['React 19', 'Vite', 'Framer Motion'],
     github: 'https://github.com/MarcioDias83/locadora-react',
     img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=85&fit=crop',
   },
   {
     title: 'App Full-stack',
-    desc: 'Aplicacao completa com autenticacao, CRUD, banco PostgreSQL e deploy automatizado com Docker. Demonstra habilidades de backend integrado.',
+    desc: 'Aplicação completa com autenticação, CRUD, banco PostgreSQL e deploy automatizado com Docker. Demonstra habilidades de backend integrado.',
     tags: ['React', 'TypeScript', 'Fastify', 'PostgreSQL', 'Docker', 'Fly.io'],
     github: null,
     img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=85&fit=crop',
@@ -37,6 +38,8 @@ const item = {
 }
 
 export default function Projects() {
+  const { t } = useT()
+
   return (
     <section id="projetos" className="py-24 md:py-32 relative">
       <div className="absolute inset-0 pointer-events-none">
@@ -51,13 +54,13 @@ export default function Projects() {
           className="text-center mb-16"
         >
           <span className="text-accent-light text-sm font-medium tracking-[0.2em] uppercase">
-            Portfolio
+            {t.projects.badge}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-3">
-            Projetos que ja entreguei
+            {t.projects.heading}
           </h2>
           <p className="text-text-secondary max-w-lg mx-auto">
-            Cada projeto combina tecnologia moderna com design cuidadoso.
+            {t.projects.subtitle}
           </p>
         </motion.div>
 
@@ -105,7 +108,7 @@ export default function Projects() {
                           className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-accent-light transition-colors"
                         >
                           <Github size={14} />
-                          Codigo
+                          {t.projects.github}
                         </a>
                       )}
                     </div>
