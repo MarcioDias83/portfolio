@@ -3,6 +3,7 @@
 ## REgra de ouro (GRAVADA NA MEMÓRIA PARA SEMPRE)
 > **Sempre entregar o MÁXIMO, melhor 1000x melhor e EXTRAORDINÁRIO logo no PRIMEIRO pedido.**
 > Nunca entregar algo medíocre, básico ou pela metade. Se o usuário pedir qualquer coisa, entregar a versão mais impressionante, completa e premium possível desde o início. Isso vale para código, design, features, commits — tudo.
+> **SEMPRE ler as customizações dos workflows (AGENTS.md, antigravity-custom-instructions.md, gemini-code, opencode.jsonc, antigravity-accounts.json) ANTES de responder qualquer solicitação.**
 
 ## INSTRUÇÕES OBRIGATÓRIAS (Antigravity)
 
