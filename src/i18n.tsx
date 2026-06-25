@@ -15,11 +15,13 @@ const ptBR = {
     btn_contact: 'Entrar em contato',
   },
   skills: {
-    title: 'Stack que uso no dia a dia',
-    subtitle: 'Ferramentas e tecnologias que domino e aplico em cada projeto.',
+    title: 'Skills que dominam o mercado',
+    subtitle: 'As 5 áreas mais valiosas para um desenvolvedor full-stack em 2026.',
   },
   skills_categories: {
     'Ferramentas': 'Ferramentas',
+    'Design': 'Design',
+    'Infraestrutura': 'Infraestrutura',
   },
   stats: [
     'Projetos entregues',
@@ -88,11 +90,13 @@ const enUS: Dict = {
     btn_contact: 'Get in touch',
   },
   skills: {
-    title: 'Daily stack',
-    subtitle: 'Tools and technologies I master and apply in every project.',
+    title: 'Market-dominating skills',
+    subtitle: 'The 5 most valuable areas for a full-stack developer in 2026.',
   },
   skills_categories: {
     'Ferramentas': 'Tools',
+    'Design': 'Design',
+    'Infraestrutura': 'Infrastructure',
   },
   stats: [
     'Projects delivered',

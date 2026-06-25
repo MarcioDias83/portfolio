@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 import { useT } from '../i18n'
@@ -6,6 +6,7 @@ import AuroraBg from './AuroraBg'
 import Magnet from './Magnet'
 import TextReveal from './TextReveal'
 import Parallax from './Parallax'
+import HeroScene from './HeroScene'
 
 function TypeText({ texts }: { texts: string[] }) {
   const [index, setIndex] = useState(0)
@@ -77,8 +78,13 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      {/* Cena 3D */}
+      <Suspense fallback={null}>
+        <HeroScene />
+      </Suspense>
+
       {/* Aurora Background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <AuroraBg
           colorStops={['#6c5ce7', '#a29bfe', '#4834d4']}
           amplitude={1.5}
@@ -87,7 +93,7 @@ export default function Hero() {
         />
       </div>
 
-      {/* Floating orbs with parallax */}
+      {/* Floating orbs com parallax */}
       <Parallax speed={0.3} className="absolute inset-0">
         <FloatingOrb delay={0.5} x="10%" y="20%" size={300} color="rgba(108,92,231,0.15)" />
         <FloatingOrb delay={1} x="80%" y="15%" size={250} color="rgba(162,155,254,0.1)" />
@@ -97,23 +103,23 @@ export default function Hero() {
         <FloatingOrb delay={2} x="20%" y="75%" size={180} color="rgba(0,206,201,0.06)" />
       </Parallax>
 
-      {/* Mouse follow glow */}
+      {/* Glow do mouse */}
       <div
-        className="absolute inset-0 opacity-30 transition-all duration-700 pointer-events-none"
+        className="absolute inset-0 opacity-30 transition-all duration-700 pointer-events-none z-10"
         style={{
           background: `radial-gradient(800px at ${mousePos.x}px ${mousePos.y}px, rgba(108,92,231,0.12), transparent 70%)`,
         }}
       />
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-900/30 via-transparent to-dark-900/80" />
+      {/* Overlay gradiente */}
+      <div className="absolute inset-0 bg-gradient-to-b from-dark-900/30 via-transparent to-dark-900/80 z-10" />
 
-      {/* Content */}
+      {/* Conteúdo */}
       <motion.div
         style={{ opacity, y, scale }}
-        className="section-container relative z-10 text-center"
+        className="section-container relative z-20 text-center"
       >
-        {/* Profile photo */}
+        {/* Foto de perfil */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -144,7 +150,7 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Main heading with text reveal */}
+        {/* Título principal com text reveal */}
         <div className="mb-6">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -163,7 +169,7 @@ export default function Hero() {
           </TextReveal>
         </div>
 
-        {/* Role typewriter */}
+        {/* Typewriter do cargo */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -187,7 +193,7 @@ export default function Hero() {
           {t.hero.tagline_after}
         </motion.p>
 
-        {/* CTA buttons */}
+        {/* Botões CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -195,18 +201,18 @@ export default function Hero() {
           className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
           <Magnet magnetStrength={5} padding={60}>
-            <a href="#projetos" className="magnetic-btn magnetic-btn-primary block" data-cursor="View">
+            <a href="#projetos" className="magnetic-btn magnetic-btn-primary block" data-cursor="Ver">
               <span className="relative z-10">{t.hero.btn_projects}</span>
             </a>
           </Magnet>
           <Magnet magnetStrength={5} padding={60}>
-            <a href="#contato" className="magnetic-btn magnetic-btn-secondary block" data-cursor="Contact">
+            <a href="#contato" className="magnetic-btn magnetic-btn-secondary block" data-cursor="Falar">
               <span className="relative z-10">{t.hero.btn_contact}</span>
             </a>
           </Magnet>
         </motion.div>
 
-        {/* Social links */}
+        {/* Links sociais */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -234,12 +240,12 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Indicador de scroll */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
       >
         <span className="text-[10px] uppercase tracking-[0.3em] text-text-muted font-medium">Scroll</span>
         <motion.a
