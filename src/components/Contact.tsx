@@ -9,6 +9,11 @@ export default function Contato() {
     <section id="contato" className="py-28 md:py-40 relative">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-accent/4 rounded-full blur-[150px]" />
+        <img
+          src="/imagens/contact/tech-bg.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.03]"
+        />
       </div>
 
       <div className="section-container relative z-10">

@@ -33,6 +33,16 @@ export default function Sobre() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 left-0 w-96 h-96 bg-accent/3 rounded-full blur-[150px]" />
         <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-accent-cyan/3 rounded-full blur-[130px]" />
+        <img
+          src="/imagens/about/workspace.jpg"
+          alt=""
+          className="absolute top-0 right-0 w-[500px] h-[400px] object-cover opacity-[0.04] rounded-3xl"
+        />
+        <img
+          src="/imagens/about/coding.jpg"
+          alt=""
+          className="absolute bottom-0 left-0 w-[400px] h-[300px] object-cover opacity-[0.04] rounded-3xl"
+        />
       </div>
 
       <div className="section-container relative z-10">

@@ -7,12 +7,12 @@ export default function SecaoBento() {
   const { t } = useT()
 
   const cards = [
-    { color: 'rgba(10,10,26,0.5)', title: t.bento[0].title, description: t.bento[0].desc, label: t.bento[0].label },
-    { color: 'rgba(10,10,26,0.5)', title: t.bento[1].title, description: t.bento[1].desc, label: t.bento[1].label },
-    { color: 'rgba(10,10,26,0.5)', title: t.bento[2].title, description: t.bento[2].desc, label: t.bento[2].label },
-    { color: 'rgba(10,10,26,0.5)', title: t.bento[3].title, description: t.bento[3].desc, label: t.bento[3].label },
-    { color: 'rgba(10,10,26,0.5)', title: t.bento[4].title, description: t.bento[4].desc, label: t.bento[4].label },
-    { color: 'rgba(10,10,26,0.5)', title: t.bento[5].title, description: t.bento[5].desc, label: t.bento[5].label },
+    { color: 'rgba(10,10,26,0.5)', title: t.bento[0].title, description: t.bento[0].desc, label: t.bento[0].label, image: '/imagens/bento/react.jpg' },
+    { color: 'rgba(10,10,26,0.5)', title: t.bento[1].title, description: t.bento[1].desc, label: t.bento[1].label, image: '/imagens/bento/api.jpg' },
+    { color: 'rgba(10,10,26,0.5)', title: t.bento[2].title, description: t.bento[2].desc, label: t.bento[2].label, image: '/imagens/bento/animation.jpg' },
+    { color: 'rgba(10,10,26,0.5)', title: t.bento[3].title, description: t.bento[3].desc, label: t.bento[3].label, image: '/imagens/bento/database.jpg' },
+    { color: 'rgba(10,10,26,0.5)', title: t.bento[4].title, description: t.bento[4].desc, label: t.bento[4].label, image: '/imagens/bento/3d.jpg' },
+    { color: 'rgba(10,10,26,0.5)', title: t.bento[5].title, description: t.bento[5].desc, label: t.bento[5].label, image: '/imagens/bento/python.jpg' },
   ]
 
   return (

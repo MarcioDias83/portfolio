@@ -78,6 +78,16 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      {/* Imagem de fundo */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/imagens/hero/tech-gradient.jpg"
+          alt=""
+          className="w-full h-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-dark-900/60" />
+      </div>
+
       {/* Cena 3D */}
       <Suspense fallback={null}>
         <HeroScene />

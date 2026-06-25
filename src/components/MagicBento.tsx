@@ -480,7 +480,7 @@ function useMobileDetection() {
   return isMobile
 }
 
-export type BentoCard = { color: string; title: string; description: string; label: string }
+export type BentoCard = { color: string; title: string; description: string; label: string; image?: string }
 
 export default function MagicBento({
   textAutoHide = true,
@@ -542,10 +542,16 @@ export default function MagicBento({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
-                <div className="magic-bento-card__header">
+                {'image' in card && card.image && (
+                  <div className="absolute inset-0 z-0">
+                    <img src={card.image} alt="" className="w-full h-full object-cover opacity-20" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-dark-900/60 to-dark-900/80" />
+                  </div>
+                )}
+                <div className="magic-bento-card__header relative z-10">
                   <div className="magic-bento-card__label">{card.label}</div>
                 </div>
-                <div className="magic-bento-card__content">
+                <div className="magic-bento-card__content relative z-10">
                   <h2 className="magic-bento-card__title">{card.title}</h2>
                   <p className="magic-bento-card__description">{card.description}</p>
                 </div>
@@ -663,10 +669,16 @@ export default function MagicBento({
                 el.addEventListener('click', handleClick)
               }}
             >
-              <div className="magic-bento-card__header">
+              {'image' in card && card.image && (
+                <div className="absolute inset-0 z-0">
+                  <img src={card.image} alt="" className="w-full h-full object-cover opacity-20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-dark-900/60 to-dark-900/80" />
+                </div>
+              )}
+              <div className="magic-bento-card__header relative z-10">
                 <div className="magic-bento-card__label">{card.label}</div>
               </div>
-              <div className="magic-bento-card__content">
+              <div className="magic-bento-card__content relative z-10">
                 <h2 className="magic-bento-card__title">{card.title}</h2>
                 <p className="magic-bento-card__description">{card.description}</p>
               </div>
