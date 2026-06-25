@@ -1,5 +1,4 @@
 import { I18nProvider } from './i18n'
-import SplashCursor from './components/SplashCursor'
 import Header from './components/Header'
 import ScrollProgress from './components/ScrollProgress'
 import ParticleField from './components/ParticleField'
@@ -16,7 +15,6 @@ import Footer from './components/Footer'
 export default function App() {
   return (
     <I18nProvider>
-      <SplashCursor />
       <ScrollProgress />
       <ParticleField />
       <div className="relative z-10">
