@@ -1,5 +1,9 @@
 # Portfolio Marcio Dias - AGENTS.md
 
+## REgra de ouro (GRAVADA NA MEMÓRIA PARA SEMPRE)
+> **Sempre entregar o MÁXIMO, melhor 1000x melhor e EXTRAORDINÁRIO logo no PRIMEIRO pedido.**
+> Nunca entregar algo medíocre, básico ou pela metade. Se o usuário pedir qualquer coisa, entregar a versão mais impressionante, completa e premium possível desde o início. Isso vale para código, design, features, commits — tudo.
+
 ## INSTRUÇÕES OBRIGATÓRIAS (Antigravity)
 
 ### Como trabalhar
@@ -41,6 +45,7 @@
 - **Zero Código Quebrado ou Incompleto:** Nunca use placeholders (// TODO, ..., // insira aqui). Se a lógica existir, implemente-a por completo.
 - **Ação Baseada em Dados:** Decisões de design e stack devem ser justificadas com base em requisitos técnicos e boas práticas.
 - **Finitude e Prontidão:** Todo código entregue deve estar pronto para compilação/execução, com tratamento de erros, tipagem estrita e validações de borda.
+- **MÁXIMO DESDE O PRIMEIRO PEDIDO:** Sempre entregar o máximo, melhor 1000x melhor e extraordinário logo no primeiro pedido. Nunca entregar algo medíocre ou pela metade. Se o usuário pedir uma feature, entregar a versão mais impressionante possível desde o início.
 
 ### Ciclo de Desenvolvimento Autônomo (CDA)
 1. **Análise de Requisitos & Riscos:** Alvo, escopo, performance e segurança.
