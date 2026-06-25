@@ -1,32 +1,18 @@
 import { motion } from 'framer-motion'
 import {
   Palette, Database, Layout,
-  Cloud, Terminal,
+  Cloud, Terminal, Wrench,
 } from 'lucide-react'
 import { useT } from '../i18n'
 
 const skillCategories = [
-  { labelKey: 'Frontend' as const, icon: Layout, items: ['React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-  { labelKey: 'State & Data' as const, icon: Database, items: ['Zustand', 'React Query', 'Zod', 'React Router'] },
-  { labelKey: 'Backend' as const, icon: Terminal, items: ['Python', 'FastAPI', 'Node.js', 'APIs REST'] },
-  { labelKey: 'Ferramentas' as const, icon: Wrench, items: ['Git', 'Docker', 'Vite', 'Vercel'] },
-  { labelKey: 'Infra & DevOps' as const, icon: Cloud, items: ['Linux', 'PostgreSQL', 'Serverless', 'GitHub Actions'] },
-  { labelKey: 'Design' as const, icon: Palette, items: ['UI/UX Design', 'Figma', 'Design Systems', 'Prototipagem'] },
+  { labelKey: 'Frontend' as const, icon: Layout, items: ['React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'], color: '#6c5ce7' },
+  { labelKey: 'State & Data' as const, icon: Database, items: ['Zustand', 'React Query', 'Zod', 'React Router'], color: '#00cec9' },
+  { labelKey: 'Backend' as const, icon: Terminal, items: ['Python', 'FastAPI', 'Node.js', 'APIs REST'], color: '#fd79a8' },
+  { labelKey: 'Ferramentas' as const, icon: Wrench, items: ['Git', 'Docker', 'Vite', 'Vercel'], color: '#fdcb6e' },
+  { labelKey: 'Infra & DevOps' as const, icon: Cloud, items: ['Linux', 'PostgreSQL', 'Serverless', 'GitHub Actions'], color: '#00b894' },
+  { labelKey: 'Design' as const, icon: Palette, items: ['UI/UX Design', 'Figma', 'Design Systems', 'Prototipagem'], color: '#a29bfe' },
 ]
-
-function Wrench({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24" height="24" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor" strokeWidth="2"
-      strokeLinecap="round" strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-    </svg>
-  )
-}
 
 const container = {
   hidden: {},
@@ -34,45 +20,49 @@ const container = {
 }
 
 const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as const } },
 }
 
 export default function SkillsShowcase() {
   const { t } = useT()
 
   return (
-    <section className="py-24 md:py-32 relative">
+    <section className="py-28 md:py-40 relative">
+      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/3 w-64 h-64 bg-accent/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent-light/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-accent/4 rounded-full blur-[130px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-light/3 rounded-full blur-[150px]" />
       </div>
 
       <div className="section-container relative z-10">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+          className="text-center mb-20"
         >
-          <span className="text-accent-light text-sm font-medium tracking-widest uppercase">
+          <span className="inline-block text-accent-light text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             Skills
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-3">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
             {t.skills.title}
           </h2>
-          <p className="text-text-secondary mt-3 max-w-lg mx-auto">
+          <p className="text-text-secondary mt-3 max-w-lg mx-auto text-lg">
             {t.skills.subtitle}
           </p>
+          <div className="section-divider mt-8" />
         </motion.div>
 
+        {/* Skills grid */}
         <motion.div
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          viewport={{ once: true, margin: '-50px' }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           {skillCategories.map((cat) => {
             const label = cat.labelKey === 'Ferramentas' && t.skills_categories['Ferramentas']
@@ -82,20 +72,20 @@ export default function SkillsShowcase() {
               <motion.div
                 key={cat.labelKey}
                 variants={item}
-                className="glass rounded-2xl p-6 hover:border-accent/40 transition-all duration-300 group"
+                className="glass-strong rounded-2xl p-6 hover:border-accent/30 transition-all duration-500 group card-hover"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center group-hover:bg-accent/25 transition-colors">
-                    <cat.icon size={20} className="text-accent-light" />
+                <div className="flex items-center gap-3 mb-5">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                    style={{ background: `${cat.color}15` }}
+                  >
+                    <cat.icon size={20} style={{ color: cat.color }} />
                   </div>
-                  <h3 className="font-semibold text-text-primary">{label}</h3>
+                  <h3 className="font-bold text-text-primary">{label}</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {cat.items.map((s) => (
-                    <span
-                      key={s}
-                      className="px-3 py-1 text-xs font-medium bg-dark-600/50 text-text-secondary rounded-full border border-border"
-                    >
+                    <span key={s} className="skill-tag">
                       {s}
                     </span>
                   ))}

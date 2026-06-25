@@ -68,7 +68,7 @@
 ## Perfil do Projeto
 - **Autor**: Marcio Dias (MarcioDias83)
 - **Email**: 1983mrd@gmail.com
-- **LinkedIn**: linkedin.com/in/marciodias83
+- **LinkedIn**: linkedin.com/in/marciordias
 - **GitHub**: github.com/MarcioDias83
 - **Stack**: Full-stack & UI Designer
 - **Localização**: Rio Grande do Sul, Brasil

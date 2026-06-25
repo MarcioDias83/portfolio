@@ -24,31 +24,32 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass shadow-lg' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? 'glass-strong shadow-xl shadow-dark-900/50 backdrop-blur-xl' : 'bg-transparent'
       }`}
     >
-      <div className="section-container flex items-center justify-between h-16">
+      <div className="section-container flex items-center justify-between h-16 md:h-18">
         <Magnet magnetStrength={5} padding={40}>
-          <a href="#hero" className="text-lg font-bold gradient-text block">
-            MD
+          <a href="#hero" className="text-xl font-bold gradient-text block tracking-tight">
+            MD<span className="text-accent-light">.</span>
           </a>
         </Magnet>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-1">
           {links.map((l) => (
             <Magnet key={l.href} magnetStrength={5} padding={30}>
               <a
                 href={l.href}
-                className="text-sm text-text-secondary hover:text-accent-light transition-colors block"
+                className="relative px-4 py-2 text-sm text-text-secondary hover:text-text-primary transition-colors block rounded-lg hover:bg-white/5"
               >
                 {l.label}
               </a>
             </Magnet>
           ))}
+          <div className="w-px h-5 bg-border mx-2" />
           <button
             onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium glass rounded-full hover:bg-surface-hover transition-all text-text-secondary hover:text-accent-light"
+            className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold glass-strong rounded-lg hover:bg-accent/15 transition-all text-text-secondary hover:text-accent-light"
             aria-label="Toggle language"
           >
             <Languages size={14} />
@@ -59,18 +60,18 @@ export default function Header() {
         <div className="flex items-center gap-2 md:hidden">
           <button
             onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
-            className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium glass rounded-full text-text-secondary"
+            className="flex items-center gap-1 px-3 py-2 text-xs font-semibold glass-strong rounded-lg text-text-secondary"
             aria-label="Toggle language"
           >
             <Languages size={14} />
             {lang === 'pt' ? 'EN' : 'PT'}
           </button>
           <button
-            className="text-text-primary"
+            className="text-text-primary p-2 hover:bg-white/5 rounded-lg transition-colors"
             onClick={() => setOpen(!open)}
             aria-label="Menu"
           >
-            {open ? <X size={24} /> : <Menu size={24} />}
+            {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
@@ -81,15 +82,16 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass border-t border-border overflow-hidden"
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+            className="md:hidden glass-strong border-t border-border overflow-hidden"
           >
-            <nav className="flex flex-col p-4 gap-3">
+            <nav className="flex flex-col p-4 gap-1">
               {links.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="text-sm text-text-secondary hover:text-accent-light transition-colors py-2"
+                  className="text-sm text-text-secondary hover:text-accent-light transition-colors py-3 px-4 rounded-lg hover:bg-white/5"
                 >
                   {l.label}
                 </a>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowDown, Github, Linkedin } from 'lucide-react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 import { useT } from '../i18n'
 import AuroraBg from './AuroraBg'
 import DecryptedText from './DecryptedText'
@@ -16,7 +16,7 @@ function TypeText({ texts }: { texts: string[] }) {
       setChar((c) => {
         const next = c + dir
         if (next >= texts[index].length + 8) {
-          setTimeout(() => setDir(-1), 500)
+          setTimeout(() => setDir(-1), 600)
           return c
         }
         if (next < 0) {
@@ -26,21 +26,43 @@ function TypeText({ texts }: { texts: string[] }) {
         }
         return next
       })
-    }, 80)
+    }, 70)
     return () => clearInterval(t)
   }, [index, dir, texts])
 
   return (
-    <span className="gradient-text inline-block min-w-[3ch]">
+    <span className="gradient-text inline-block min-w-[4ch]">
       {texts[index].slice(0, char)}
-      <span className="animate-pulse">|</span>
+      <span className="animate-pulse text-accent-light">|</span>
     </span>
+  )
+}
+
+function FloatingOrb({ delay, x, y, size, color }: { delay: number; x: string; y: string; size: number; color: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.5, delay }}
+      className="absolute rounded-full blur-3xl animate-float-slow"
+      style={{
+        left: x,
+        top: y,
+        width: size,
+        height: size,
+        background: color,
+        animationDelay: `${delay}s`,
+      }}
+    />
   )
 }
 
 export default function Hero() {
   const { t } = useT()
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const { scrollY } = useScroll()
+  const opacity = useTransform(scrollY, [0, 500], [1, 0])
+  const y = useTransform(scrollY, [0, 500], [0, 100])
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
@@ -53,45 +75,85 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      {/* Aurora Background */}
       <div className="absolute inset-0">
         <AuroraBg
           colorStops={['#6c5ce7', '#a29bfe', '#4834d4']}
-          amplitude={1.2}
-          blend={0.6}
-          speed={0.8}
+          amplitude={1.5}
+          blend={0.7}
+          speed={0.6}
         />
       </div>
+
+      {/* Floating orbs */}
+      <FloatingOrb delay={0.5} x="10%" y="20%" size={300} color="rgba(108,92,231,0.15)" />
+      <FloatingOrb delay={1} x="80%" y="15%" size={250} color="rgba(162,155,254,0.1)" />
+      <FloatingOrb delay={1.5} x="60%" y="70%" size={200} color="rgba(253,121,168,0.08)" />
+      <FloatingOrb delay={2} x="20%" y="75%" size={180} color="rgba(0,206,201,0.06)" />
+
+      {/* Mouse follow glow */}
       <div
-        className="absolute inset-0 opacity-20 transition-all duration-500"
+        className="absolute inset-0 opacity-30 transition-all duration-700 pointer-events-none"
         style={{
-          background: `radial-gradient(600px at ${mousePos.x}px ${mousePos.y}px, rgba(108,92,231,0.15), transparent)`,
+          background: `radial-gradient(800px at ${mousePos.x}px ${mousePos.y}px, rgba(108,92,231,0.12), transparent 70%)`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark-900/60" />
 
-      <div className="section-container relative z-10 text-center">
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-dark-900/30 via-transparent to-dark-900/80" />
+
+      {/* Content */}
+      <motion.div
+        style={{ opacity, y }}
+        className="section-container relative z-10 text-center"
+      >
+        {/* Profile photo */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+          className="mb-8"
         >
-          <span className="inline-block px-4 py-1.5 text-xs font-medium tracking-widest uppercase text-accent-light glass rounded-full mb-6 border-accent/30">
+          <div className="relative inline-block">
+            <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-accent/30 profile-glow transition-all duration-500">
+              <img
+                src="/profile.jpg"
+                alt="Marcio Dias"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Online indicator */}
+            <div className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-green-400 border-3 border-dark-900 shadow-lg shadow-green-400/30" />
+          </div>
+        </motion.div>
+
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
+        >
+          <span className="inline-flex items-center gap-2 px-5 py-2 text-xs font-semibold tracking-[0.25em] uppercase text-accent-light glass-strong rounded-full mb-8 border-accent/20">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             {t.hero.available}
           </span>
         </motion.div>
 
+        {/* Main heading */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4"
+          transition={{ duration: 0.9, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
+          className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] mb-6 tracking-tight"
         >
-          {t.hero.hello}{' '}
+          <span className="text-text-secondary block text-2xl md:text-3xl font-normal mb-3 tracking-normal">
+            {t.hero.hello}
+          </span>
           <DecryptedText
             text="Marcio Dias"
             animateOn="hover"
-            speed={60}
-            maxIterations={15}
+            speed={50}
+            maxIterations={18}
             sequential={true}
             revealDirection="center"
             className="gradient-text"
@@ -99,65 +161,67 @@ export default function Hero() {
           />
         </motion.h1>
 
+        {/* Role typewriter */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-xl md:text-2xl text-text-secondary mb-2"
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
+          className="text-xl md:text-2xl text-text-secondary mb-3 font-light"
         >
           <TypeText texts={t.hero.roles} />
         </motion.p>
 
+        {/* Tagline */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-base md:text-lg text-text-muted max-w-xl mx-auto mb-10 leading-relaxed"
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
+          className="text-base md:text-lg text-text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
         >
-          {t.hero.tagline_before} <TypeText texts={t.hero.words} /> {t.hero.tagline_after}
+          {t.hero.tagline_before}{' '}
+          <span className="text-accent-light font-medium">
+            <TypeText texts={t.hero.words} />
+          </span>{' '}
+          {t.hero.tagline_after}
         </motion.p>
 
+        {/* CTA buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-4"
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
+          className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
-          <Magnet magnetStrength={4} padding={60}>
-            <a
-              href="#projetos"
-              className="group relative px-8 py-3 bg-accent hover:bg-accent/90 text-white rounded-full font-medium transition-all block"
-            >
-              <span className="absolute inset-0 rounded-full bg-white/20 blur-md group-hover:blur-xl transition-all opacity-0 group-hover:opacity-100" />
-              <span className="relative">{t.hero.btn_projects}</span>
+          <Magnet magnetStrength={5} padding={60}>
+            <a href="#projetos" className="magnetic-btn magnetic-btn-primary block">
+              <span className="relative z-10">{t.hero.btn_projects}</span>
             </a>
           </Magnet>
-          <Magnet magnetStrength={4} padding={60}>
-            <a
-              href="#contato"
-              className="px-8 py-3 glass hover:bg-surface-hover text-text-primary rounded-full font-medium transition-all border-border hover:border-accent/50 block"
-            >
-              {t.hero.btn_contact}
+          <Magnet magnetStrength={5} padding={60}>
+            <a href="#contato" className="magnetic-btn magnetic-btn-secondary block">
+              <span className="relative z-10">{t.hero.btn_contact}</span>
             </a>
           </Magnet>
         </motion.div>
 
+        {/* Social links */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex items-center justify-center gap-4 mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7, ease: [0.23, 1, 0.32, 1] }}
+          className="flex items-center justify-center gap-3"
         >
           {[
             { href: 'https://github.com/MarcioDias83', icon: Github, label: 'GitHub' },
-            { href: 'https://linkedin.com/in/marciodias83', icon: Linkedin, label: 'LinkedIn' },
+            { href: 'https://linkedin.com/in/marciordias', icon: Linkedin, label: 'LinkedIn' },
+            { href: 'mailto:1983mrd@gmail.com', icon: Mail, label: 'Email' },
           ].map(({ href, icon: Icon, label }) => (
-            <Magnet key={label} magnetStrength={3} padding={40}>
+            <Magnet key={label} magnetStrength={4} padding={40}>
               <a
                 href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 glass rounded-full hover:bg-surface-hover transition-all hover:text-accent-light hover:border-accent/40 hover:-translate-y-1 block"
+                target={href.startsWith('mailto') ? undefined : '_blank'}
+                rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+                className="p-3.5 glass-strong rounded-xl hover:bg-accent/20 transition-all duration-300 hover:text-accent-light hover:border-accent/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 block"
                 aria-label={label}
               >
                 <Icon size={20} />
@@ -165,21 +229,23 @@ export default function Hero() {
             </Magnet>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
 
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
+        <span className="text-[10px] uppercase tracking-[0.3em] text-text-muted font-medium">Scroll</span>
         <motion.a
           href="#projetos"
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
           className="block text-text-muted hover:text-accent-light transition-colors"
         >
-          <ArrowDown size={24} />
+          <ArrowDown size={20} />
         </motion.a>
       </motion.div>
     </section>
