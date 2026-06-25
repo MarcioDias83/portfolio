@@ -11,7 +11,7 @@ const projetos = [
     descricao: 'Aplicação web completa para gestão de igreja com páginas institucionais, player de áudio, formulários com validação e animações fluidas.',
     tecnologias: ['React 19', 'TypeScript', 'Tailwind', 'Zustand', 'React Query', 'Framer Motion'],
     github: 'https://github.com/MarcioDias83/igreja-app',
-    imagem: 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?w=800&q=85&fit=crop',
+    imagem: '/projetos/igreja-app.jpg',
     cor: '#6c5ce7',
   },
   {
@@ -19,7 +19,7 @@ const projetos = [
     descricao: 'Catálogo interativo de veículos com grid dinâmico, filtros, seções de serviços e navegação fluida com scroll spy.',
     tecnologias: ['React 19', 'Vite', 'Framer Motion'],
     github: 'https://github.com/MarcioDias83/locadora-react',
-    imagem: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=85&fit=crop',
+    imagem: '/projetos/locadora-react.jpg',
     cor: '#00cec9',
   },
   {
@@ -27,7 +27,7 @@ const projetos = [
     descricao: 'Aplicação completa com autenticação, CRUD, banco PostgreSQL e deploy automatizado com Docker.',
     tecnologias: ['React', 'TypeScript', 'Fastify', 'PostgreSQL', 'Docker', 'Fly.io'],
     github: null,
-    imagem: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=85&fit=crop',
+    imagem: '/projetos/app-fullstack.jpg',
     cor: '#fd79a8',
   },
 ]
