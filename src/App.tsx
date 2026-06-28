@@ -4,6 +4,7 @@ import ScrollProgress from './components/ScrollProgress'
 import ParticleField from './components/ParticleField'
 import CustomCursor from './components/CustomCursor'
 import SmoothScroll from './components/SmoothScroll'
+import LoadingScreen from './components/LoadingScreen'
 import Hero from './components/Hero'
 import SkillsMarquee from './components/SkillsMarquee'
 import Stats from './components/Stats'
@@ -17,6 +18,7 @@ import Footer from './components/Footer'
 export default function App() {
   return (
     <I18nProvider>
+      <LoadingScreen />
       <SmoothScroll>
         <CustomCursor />
         <ScrollProgress />

@@ -84,6 +84,7 @@ export default function Hero() {
           src="/imagens/hero/tech-gradient.jpg"
           alt=""
           className="w-full h-full object-cover opacity-20"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-dark-900/60" />
       </div>
@@ -142,6 +143,7 @@ export default function Hero() {
                 src="/profile.jpg"
                 alt="Marcio Dias"
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </div>
             <div className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-green-400 border-3 border-dark-900 shadow-lg shadow-green-400/30" />

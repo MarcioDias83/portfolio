@@ -112,28 +112,39 @@
 - **Workflows locais**: "Algumas_orientacoes Sites" (Global), "Commit+Push_Automaticamente" (Global)
 
 ## Componentes React Bits Integrados
-- **SplashCursor** (src/components/SplashCursor.tsx) - WebGL fluid simulation, z-50 fixed overlay
 - **AuroraBg** (src/components/AuroraBg.tsx) - WebGL aurora gradient via ogl
 - **DecryptedText** (src/components/DecryptedText.tsx) - Hacker decrypt on hover
 - **SpotlightCard** (src/components/SpotlightCard.tsx) - Spotlight glow nos cards
 - **Magnet** (src/components/Magnet.tsx) - Atração magnética em botões/links
 - **MagicBento** (src/components/MagicBento.tsx) - Bento grid com stars/spotlight/border-glow/tilt
+- **LazyImage** (src/components/LazyImage.tsx) - Imagem lazy com blur placeholder
+- **LoadingScreen** (src/components/LoadingScreen.tsx) - Splash de carregamento inicial
+- **ParticleField** (src/components/ParticleField.tsx) - Partículas conectadas em canvas 2D
 
 ## Estrutura de Arquivos Chave
 - src/i18n.tsx - Provider PT/EN com useT() hook
 - src/App.tsx - Layout principal com todos os componentes
 - src/components/Hero.tsx - AuroraBg + DecryptedText + Magnet + TypeText
-- src/components/Header.tsx - Magnet nos nav links + toggle idioma
+- src/components/Header.tsx - Magnet nos nav links + toggle idioma + menu mobile fullscreen
 - src/components/Projects.tsx - SpotlightCard com imagens Unsplash
 - src/components/BentoSection.tsx - MagicBento com 6 cards de serviço
-- src/components/SplashCursor.tsx - Cursor fluid (1000+ linhas WebGL)
 - src/index.css - Tema Tailwind v4 customizado
+- index.html - SEO (OG, Twitter, JSON-LD, meta tags)
+- public/404.html - Página 404 customizada
+- public/robots.txt + sitemap.xml - SEO
+- opencode.jsonc - MCP server agent-memory
+- vercel.json - SPA rewrite config
+- vite.config.ts - Security headers + aliases
+- .env.example - Variáveis de ambiente documentadas
 
 ## Estado Atual (IMPORTANTE)
-- Site FUNCIONANDO - Playwright confirmou que conteúdo renderiza
-- SplashCursor causa warnings WebGL (shader compilation) mas não impede renderização
+- Site FUNCIONANDO e em produção (https://marciodias.vercel.app)
+- Todos os memory leaks corrigidos (RAF, setTimeout, observers)
+- Shader WebGL do AuroraBg otimizado (uniformes individuais, Color memoizado)
+- Formulário com validação, sanitização e honeypot anti-bot
+- CSP e headers de segurança configurados
 - Usuário pode ver página em branco por cache do browser → instruct hard refresh (Ctrl+Shift+R)
--.vercel directory: usar "vercel link --project portfolio" antes de deploy
+- .vercel directory: usar "vercel link --project portfolio" antes de deploy
 
 ## O que NÃO fazer
 - NÃO criar projeto "marciodias" no Vercel (deu problema de roteamento)

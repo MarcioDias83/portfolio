@@ -1,9 +1,88 @@
-import { Mail, MapPin, Github, Linkedin, Send, ArrowUpRight, Phone, MessageCircle } from 'lucide-react'
+import { useState, type FormEvent, type ChangeEvent } from 'react'
+import { Mail, MapPin, Github, Linkedin, Send, ArrowUpRight, Phone, MessageCircle, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import { useT } from '../i18n'
 import ScrollReveal from './ScrollReveal'
 
+function sanitize(value: string): string {
+  return value.replace(/<[^>]*>/g, '').trim()
+}
+
+function validarEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+type CampoErro = { nome?: string; email?: string; mensagem?: string }
+
 export default function Contato() {
   const { t } = useT()
+
+  const [formData, setFormData] = useState({ nome: '', email: '', mensagem: '' })
+  const [erros, setErros] = useState<CampoErro>({})
+  const [status, setStatus] = useState<'idle' | 'enviando' | 'sucesso' | 'erro'>('idle')
+  const [ultimoEnvio, setUltimoEnvio] = useState(0)
+
+  function handleChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = e.target
+    const limpo = sanitize(value)
+    setFormData(prev => ({ ...prev, [name]: limpo }))
+    if (erros[name as keyof CampoErro]) {
+      setErros(prev => ({ ...prev, [name]: undefined }))
+    }
+  }
+
+  function validar(): boolean {
+    const novosErros: CampoErro = {}
+
+    if (!formData.nome || formData.nome.length < 2) {
+      novosErros.nome = 'Nome precisa ter pelo menos 2 caracteres'
+    }
+    if (!formData.email || !validarEmail(formData.email)) {
+      novosErros.email = 'Email inválido'
+    }
+    if (!formData.mensagem || formData.mensagem.length < 10) {
+      novosErros.mensagem = 'Mensagem precisa ter pelo menos 10 caracteres'
+    }
+
+    setErros(novosErros)
+    return Object.keys(novosErros).length === 0
+  }
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+
+    const agora = Date.now()
+    if (agora - ultimoEnvio < 30000) {
+      return
+    }
+
+    if (!validar()) return
+
+    setStatus('enviando')
+
+    try {
+      const form = e.currentTarget as HTMLFormElement
+      const formDataObj = new FormData(form)
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: formDataObj,
+        headers: { Accept: 'application/json' },
+      })
+
+      if (res.ok) {
+        setStatus('sucesso')
+        setUltimoEnvio(agora)
+        setFormData({ nome: '', email: '', mensagem: '' })
+        setTimeout(() => setStatus('idle'), 5000)
+      } else {
+        setStatus('erro')
+        setTimeout(() => setStatus('idle'), 5000)
+      }
+    } catch {
+      setStatus('erro')
+      setTimeout(() => setStatus('idle'), 5000)
+    }
+  }
 
   return (
     <section id="contato" className="py-28 md:py-40 relative">
@@ -13,6 +92,7 @@ export default function Contato() {
           src="/imagens/contact/tech-bg.jpg"
           alt=""
           className="absolute inset-0 w-full h-full object-cover opacity-[0.03]"
+          loading="lazy"
         />
       </div>
 
@@ -38,48 +118,106 @@ export default function Contato() {
             <form
               action="https://formspree.io/f/1983mrd@gmail.com"
               method="POST"
+              onSubmit={handleSubmit}
               className="space-y-5"
+              noValidate
             >
+              <input
+                type="text"
+                name="_gotcha"
+                className="absolute -left-[9999px]"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
+
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="relative group">
                   <input
                     type="text"
-                    name="name"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleChange}
                     placeholder={t.contact.name_placeholder}
                     required
-                    className="w-full px-5 py-4 bg-surface border border-border rounded-2xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent/50 focus:shadow-lg focus:shadow-accent/10 transition-all duration-300 text-sm"
+                    maxLength={100}
+                    className={`w-full px-5 py-4 bg-surface border rounded-2xl text-text-primary placeholder-text-muted focus:outline-none focus:shadow-lg transition-all duration-300 text-sm ${
+                      erros.nome
+                        ? 'border-red-500/50 focus:border-red-500 focus:shadow-red-500/10'
+                        : 'border-border focus:border-accent/50 focus:shadow-accent/10'
+                    }`}
                   />
-                  <div className="absolute inset-0 rounded-2xl bg-accent/5 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+                  {erros.nome && (
+                    <p className="flex items-center gap-1.5 text-red-400 text-xs mt-1.5 ml-1">
+                      <AlertCircle size={12} />
+                      {erros.nome}
+                    </p>
+                  )}
                 </div>
                 <div className="relative group">
                   <input
                     type="email"
                     name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder={t.contact.email_placeholder}
                     required
-                    className="w-full px-5 py-4 bg-surface border border-border rounded-2xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent/50 focus:shadow-lg focus:shadow-accent/10 transition-all duration-300 text-sm"
+                    maxLength={200}
+                    className={`w-full px-5 py-4 bg-surface border rounded-2xl text-text-primary placeholder-text-muted focus:outline-none focus:shadow-lg transition-all duration-300 text-sm ${
+                      erros.email
+                        ? 'border-red-500/50 focus:border-red-500 focus:shadow-red-500/10'
+                        : 'border-border focus:border-accent/50 focus:shadow-accent/10'
+                    }`}
                   />
-                  <div className="absolute inset-0 rounded-2xl bg-accent/5 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+                  {erros.email && (
+                    <p className="flex items-center gap-1.5 text-red-400 text-xs mt-1.5 ml-1">
+                      <AlertCircle size={12} />
+                      {erros.email}
+                    </p>
+                  )}
                 </div>
               </div>
+
               <div className="relative group">
                 <textarea
-                  name="message"
+                  name="mensagem"
                   rows={6}
+                  value={formData.mensagem}
+                  onChange={handleChange}
                   placeholder={t.contact.message_placeholder}
                   required
-                  className="w-full px-5 py-4 bg-surface border border-border rounded-2xl text-text-primary placeholder-text-muted focus:outline-none focus:border-accent/50 focus:shadow-lg focus:shadow-accent/10 transition-all duration-300 resize-none text-sm"
+                  maxLength={5000}
+                  className={`w-full px-5 py-4 bg-surface border rounded-2xl text-text-primary placeholder-text-muted focus:outline-none focus:shadow-lg transition-all duration-300 resize-none text-sm ${
+                    erros.mensagem
+                      ? 'border-red-500/50 focus:border-red-500 focus:shadow-red-500/10'
+                      : 'border-border focus:border-accent/50 focus:shadow-accent/10'
+                  }`}
                 />
-                <div className="absolute inset-0 rounded-2xl bg-accent/5 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+                {erros.mensagem && (
+                  <p className="flex items-center gap-1.5 text-red-400 text-xs mt-1.5 ml-1">
+                    <AlertCircle size={12} />
+                    {erros.mensagem}
+                  </p>
+                )}
               </div>
+
               <button
                 type="submit"
-                className="w-full magnetic-btn magnetic-btn-primary py-4 rounded-2xl text-sm"
+                disabled={status === 'enviando'}
+                className="w-full magnetic-btn magnetic-btn-primary py-4 rounded-2xl text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 data-cursor="Enviar"
               >
-                <Send size={16} />
-                <span className="relative z-10">{t.contact.send}</span>
-                <ArrowUpRight size={16} className="relative z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                {status === 'enviando' ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : status === 'sucesso' ? (
+                  <CheckCircle size={16} />
+                ) : (
+                  <Send size={16} />
+                )}
+                <span className="relative z-10">
+                  {status === 'enviando' ? 'Enviando...' : status === 'sucesso' ? 'Enviado!' : status === 'erro' ? 'Erro ao enviar' : t.contact.send}
+                </span>
+                {status === 'idle' && <ArrowUpRight size={16} className="relative z-10 opacity-0 group-hover:opacity-100 transition-opacity" />}
               </button>
             </form>
           </ScrollReveal>

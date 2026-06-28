@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
 import {
   Code2, Monitor, Database, ShieldCheck, Terminal,
   Globe, Smartphone, Wrench, GraduationCap, Zap,
@@ -6,6 +7,16 @@ import {
 } from 'lucide-react'
 import { useT } from '../i18n'
 import ScrollReveal from './ScrollReveal'
+
+function parseBold(text: string): ReactNode {
+  const parts = text.split(/(<strong>.*?<\/strong>)/g)
+  return parts.map((part, i) => {
+    if (part.startsWith('<strong>')) {
+      return <strong key={i} className="text-text-primary font-semibold">{part.replace(/<\/?strong>/g, '')}</strong>
+    }
+    return <span key={i}>{part}</span>
+  })
+}
 
 const competencias = [
   { icone: Code2, rotulo: 'React . TypeScript . Vite', cor: '#6c5ce7' },
@@ -37,11 +48,13 @@ export default function Sobre() {
           src="/imagens/about/workspace.jpg"
           alt=""
           className="absolute top-0 right-0 w-[500px] h-[400px] object-cover opacity-[0.04] rounded-3xl"
+          loading="lazy"
         />
         <img
           src="/imagens/about/coding.jpg"
           alt=""
           className="absolute bottom-0 left-0 w-[400px] h-[300px] object-cover opacity-[0.04] rounded-3xl"
+          loading="lazy"
         />
       </div>
 
@@ -64,13 +77,13 @@ export default function Sobre() {
             <div className="flex items-start gap-5 mb-6">
               <div className="shrink-0">
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border border-accent/20 profile-glow transition-all duration-500">
-                  <img src="/profile.jpg" alt="Marcio Dias" className="w-full h-full object-cover" />
+                  <img src="/profile.jpg" alt="Marcio Dias" className="w-full h-full object-cover" loading="lazy" />
                 </div>
               </div>
               <div className="space-y-5 text-text-secondary leading-relaxed text-[15px]">
-                <p dangerouslySetInnerHTML={{ __html: t.about.p1 }} />
-                <p dangerouslySetInnerHTML={{ __html: t.about.p2 }} />
-                <p dangerouslySetInnerHTML={{ __html: t.about.p3 }} />
+                <p>{parseBold(t.about.p1)}</p>
+                <p>{parseBold(t.about.p2)}</p>
+                <p>{parseBold(t.about.p3)}</p>
               </div>
             </div>
 

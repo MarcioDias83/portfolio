@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl'
 
 const VERT = `#version 300 es
@@ -13,7 +13,9 @@ precision highp float;
 
 uniform float uTime;
 uniform float uAmplitude;
-uniform vec3 uColorStops[3];
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform vec3 uColor3;
 uniform vec2 uResolution;
 uniform float uBlend;
 
@@ -63,35 +65,16 @@ float snoise(vec2 v){
   return 130.0 * dot(m, g);
 }
 
-struct ColorStop {
-  vec3 color;
-  float position;
-};
-
-#define COLOR_RAMP(colors, factor, finalColor) {              \
-  int index = 0;                                            \
-  for (int i = 0; i < 2; i++) {                               \
-     ColorStop currentColor = colors[i];                    \
-     bool isInBetween = currentColor.position <= factor;    \
-     index = int(mix(float(index), float(i), float(isInBetween))); \
-  }                                                         \
-  ColorStop currentColor = colors[index];                   \
-  ColorStop nextColor = colors[index + 1];                  \
-  float range = nextColor.position - currentColor.position; \
-  float lerpFactor = (factor - currentColor.position) / range; \
-  finalColor = mix(currentColor.color, nextColor.color, lerpFactor); \
-}
-
 void main() {
   vec2 uv = gl_FragCoord.xy / uResolution;
 
-  ColorStop colors[3];
-  colors[0] = ColorStop(uColorStops[0], 0.0);
-  colors[1] = ColorStop(uColorStops[1], 0.5);
-  colors[2] = ColorStop(uColorStops[2], 1.0);
-
   vec3 rampColor;
-  COLOR_RAMP(colors, uv.x, rampColor);
+  float pos = uv.x;
+  if (pos < 0.5) {
+    rampColor = mix(uColor1, uColor2, pos * 2.0);
+  } else {
+    rampColor = mix(uColor2, uColor3, (pos - 0.5) * 2.0);
+  }
 
   float height = snoise(vec2(uv.x * 2.0 + uTime * 0.1, uTime * 0.25)) * 0.5 * uAmplitude;
   height = exp(height);
@@ -124,9 +107,12 @@ export default function AuroraBg({
   const propsRef = useRef({ colorStops, amplitude, blend, speed })
   propsRef.current = { colorStops, amplitude, blend, speed }
 
+  const colors = useMemo(() => colorStops.map(hex => new Color(hex)), [colorStops])
+
   useEffect(() => {
     const ctn = ctnDom.current
     if (!ctn) return
+    if (colors.length < 3) return
 
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true })
     const gl = renderer.gl
@@ -149,15 +135,15 @@ export default function AuroraBg({
     const geometry = new Triangle(gl)
     if (geometry.attributes.uv) delete geometry.attributes.uv
 
-    const colorStopsArray = colorStops.map(hex => { const c = new Color(hex); return [c.r, c.g, c.b] })
-
     program = new Program(gl, {
       vertex: VERT,
       fragment: FRAG,
       uniforms: {
         uTime: { value: 0 },
         uAmplitude: { value: amplitude },
-        uColorStops: { value: colorStopsArray },
+        uColor1: { value: colors[0] },
+        uColor2: { value: colors[1] },
+        uColor3: { value: colors[2] },
         uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
         uBlend: { value: blend },
       },
@@ -174,8 +160,6 @@ export default function AuroraBg({
         program.uniforms.uTime.value = t * 0.01 * p.speed * 0.1
         program.uniforms.uAmplitude.value = p.amplitude
         program.uniforms.uBlend.value = p.blend
-        const stops = p.colorStops
-        program.uniforms.uColorStops.value = stops.map(hex => { const c = new Color(hex); return [c.r, c.g, c.b] })
         renderer.render({ scene: mesh })
       }
     }
@@ -188,7 +172,7 @@ export default function AuroraBg({
       if (ctn && gl.canvas.parentNode === ctn) ctn.removeChild(gl.canvas)
       gl.getExtension('WEBGL_lose_context')?.loseContext()
     }
-  }, [amplitude, colorStops, blend])
+  }, [amplitude, blend, colors])
 
   return <div ref={ctnDom} className={`w-full h-full ${className}`} />
 }

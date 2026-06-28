@@ -22,6 +22,7 @@ export default function ParticleField() {
     const particles: Particle[] = []
     const MAX_PARTICLES = 80
     const CONNECT_DIST = 120
+    let animFrameId = 0
 
     function resize() {
       if (!canvas) return
@@ -31,8 +32,8 @@ export default function ParticleField() {
 
     function createParticle(): Particle {
       return {
-        x: Math.random() * (canvas?.width || window.innerWidth),
-        y: Math.random() * (canvas?.height || window.innerHeight),
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         size: Math.random() * 2 + 1,
@@ -93,7 +94,7 @@ export default function ParticleField() {
         }
       }
 
-      requestAnimationFrame(animate)
+      animFrameId = requestAnimationFrame(animate)
     }
 
     resize()
@@ -105,6 +106,7 @@ export default function ParticleField() {
     window.addEventListener('resize', onResize)
 
     return () => {
+      cancelAnimationFrame(animFrameId)
       window.removeEventListener('mousemove', onMouse)
       window.removeEventListener('resize', onResize)
     }

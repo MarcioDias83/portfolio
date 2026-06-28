@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Márcio Dias</title>
+    <meta name="robots" content="noindex" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: #050510;
+        color: #f0f0f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+      .container { text-align: center; padding: 2rem; }
+      .code { font-size: 8rem; font-weight: 800; background: linear-gradient(135deg, #6c5ce7, #a29bfe, #74b9ff, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+      .title { font-size: 1.5rem; color: #8888aa; margin: 1rem 0 2rem; }
+      .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.875rem 2rem; border-radius: 9999px; font-weight: 600; font-size: 0.9rem; background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; text-decoration: none; box-shadow: 0 4px 30px rgba(108,92,231,0.3); transition: all 0.3s ease; }
+      .btn:hover { box-shadow: 0 8px 40px rgba(108,92,231,0.5); transform: translateY(-2px); }
+      .glow { position: fixed; width: 600px; height: 600px; border-radius: 50%; pointer-events: none; filter: blur(150px); opacity: 0.08; }
+      .glow-1 { top: -200px; left: -200px; background: #6c5ce7; }
+      .glow-2 { bottom: -200px; right: -200px; background: #00cec9; }
+    </style>
+  </head>
+  <body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="container">
+      <div class="code">404</div>
+      <p class="title">Página não encontrada</p>
+      <a class="btn" href="/">Voltar ao início</a>
+    </div>
+  </body>
+</html>

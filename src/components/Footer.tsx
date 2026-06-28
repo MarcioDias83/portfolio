@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Heart, ArrowUp, Github, Linkedin, Mail } from 'lucide-react'
 import { useT } from '../i18n'
@@ -5,6 +6,13 @@ import ScrollReveal from './ScrollReveal'
 
 export default function Rodape() {
   const { t } = useT()
+  const [showTop, setShowTop] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 500)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const voltarAoTopo = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -67,11 +75,12 @@ export default function Rodape() {
       <motion.button
         onClick={voltarAoTopo}
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="fixed bottom-6 right-6 z-40 p-3 glass-strong rounded-xl hover:bg-accent/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 group"
+        animate={{ opacity: showTop ? 1 : 0, y: showTop ? 0 : 20 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className="fixed bottom-6 right-6 z-40 p-3 glass-strong rounded-xl hover:bg-accent/20 transition-colors hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 group"
         aria-label="Voltar ao topo"
         data-cursor="Topo"
+        style={{ pointerEvents: showTop ? 'auto' : 'none' }}
       >
         <ArrowUp size={20} className="text-text-muted group-hover:text-accent-light transition-colors" />
       </motion.button>

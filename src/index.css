@@ -301,3 +301,35 @@ body {
     0 0 40px rgba(108, 92, 231, 0.25),
     0 0 80px rgba(108, 92, 231, 0.1);
 }
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth image loading */
+img {
+  transition: filter 0.5s ease, opacity 0.5s ease;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Better touch targets on mobile */
+@media (max-width: 768px) {
+  .magnetic-btn {
+    min-height: 48px;
+  }
+  a, button {
+    cursor: default;
+  }
+}

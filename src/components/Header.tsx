@@ -15,6 +15,11 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
   const links = [
     { href: '#hero', label: t.nav.home },
     { href: '#projetos', label: t.nav.projects },
@@ -67,9 +72,9 @@ export default function Header() {
             {lang === 'pt' ? 'EN' : 'PT'}
           </button>
           <button
-            className="text-text-primary p-2 hover:bg-white/5 rounded-lg transition-colors"
+            className="text-text-primary p-2 hover:bg-white/5 rounded-lg transition-colors relative z-50"
             onClick={() => setOpen(!open)}
-            aria-label="Menu"
+            aria-label={open ? 'Fechar menu' : 'Abrir menu'}
           >
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -79,22 +84,26 @@ export default function Header() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className="md:hidden glass-strong border-t border-border overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 md:hidden"
           >
-            <nav className="flex flex-col p-4 gap-1">
-              {links.map((l) => (
-                <a
+            <div className="absolute inset-0 bg-dark-900/95 backdrop-blur-2xl" />
+            <nav className="relative flex flex-col items-center justify-center h-full gap-2 p-8">
+              {links.map((l, i) => (
+                <motion.a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="text-sm text-text-secondary hover:text-accent-light transition-colors py-3 px-4 rounded-lg hover:bg-white/5"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                  className="text-2xl font-semibold text-text-secondary hover:text-accent-light transition-colors py-4 px-8"
                 >
                   {l.label}
-                </a>
+                </motion.a>
               ))}
             </nav>
           </motion.div>
