@@ -1,0 +1,17 @@
+{
+  "cache": [
+    [
+      "portfolio:_index_portfolio",
+      {
+        "value": "{\"value\":[\"test-combinacao-antigravity\"],\"expires\":null}"
+      }
+    ],
+    [
+      "portfolio:test-combinacao-antigravity",
+      {
+        "value": "{\"value\":{\"id\":\"ed2298e7-3525-4040-b610-af72b552de0a\",\"projectId\":\"portfolio\",\"key\":\"test-combinacao-antigravity\",\"type\":\"skill_combination\",\"content\":\"antigravity + agent-memory-mcp testado com sucesso\",\"tags\":[\"teste\",\"antigravity\",\"memory\"],\"relationships\":{\"dependsOn\":[],\"implements\":[]},\"metadata\":{\"accessCount\":0,\"createdBy\":\"agent\"},\"createdAt\":1782621640998,\"updatedAt\":1782621640998},\"expires\":null}"
+      }
+    ]
+  ],
+  "lastExpire": 1782621640500
+}
